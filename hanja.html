@@ -2,22 +2,104 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hanja</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Hanja Dictionary</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        section { margin-bottom: 30px; border-bottom: 2px solid #ccc; padding-bottom: 20px; }
+        h2 { color: #4CAF50; }
+        .phrase { margin-bottom: 20px; }
+        .phrase-header { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
+        .character-boxes { display: flex; gap: 10px; margin-bottom: 10px; }
+        .character-box { border: 1px solid #ccc; padding: 10px; text-align: center; width: 100px; }
+        .character-box .hanja { font-size: 2em; font-weight: bold; }
+        .character-box .korean { font-size: 1em; color: #555; }
+        .character-box .sound { font-size: 0.9em; color: #777; }
+        .phrase-meaning { font-style: italic; color: #333; }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Hanja</h1>
-        <nav>
-            <a href="veterinary_medicine.html">Veterinary medicine</a>
-            <a href="languages.html">Languages</a>
-        </nav>
-    </header>
-    <section id="veterinary_medicine"><h2>Veterinary medicine</h2><p>A-level Chemistry as preparation</p></section>
-    <section id="languages"><h2>Languages</h2><p>Studying different languages</p></section>
-    <footer>
-        <p>&copy; 2025 Gwen's Study Cafe</p>
-    </footer>
+    <h1>1,000 Hanja Characters</h1>
+    <div id="hanja-sections"></div>
+
+    <script>
+        const SHEET_ID = 11u6-30QjGz08BPbj5mC_abQr64lpzHuH59AoWgP3VLU ; 
+        const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
+
+        fetch(URL)
+            .then(response => response.text())
+            .then(data => {
+                const json = JSON.parse(data.substring(47, data.length - 2));
+                const rows = json.table.rows.map(row => row.c.map(cell => cell ? cell.v : ''));
+
+                displayData(rows);
+            })
+            .catch(error => console.error('Error loading data:', error));
+
+        function displayData(data) {
+            const sections = {
+                1: { start: 1, end: 18 },
+                2: { start: 19, end: 51 },
+                3: { start: 52, end: 81 },
+                4: { start: 82, end: 124 },
+                5: { start: 125, end: 125 }
+            };
+
+            const container = document.getElementById('hanja-sections');
+            let currentSection = 1;
+
+            data.forEach(row => {
+                const [sectionHanja, sectionKorean, sectionMeaning, phraseNumber, phraseHanja, phraseKorean, phraseMeaning, characterHanja, characterKorean, characterSound] = row;
+
+                if (sectionHanja && sectionKorean && sectionMeaning) {
+                    const sectionDiv = document.createElement('section');
+                    sectionDiv.id = `section-${currentSection}`;
+                    sectionDiv.innerHTML = `<h2>${sectionHanja} - ${sectionKorean}</h2><p>${sectionMeaning}</p>`;
+                    container.appendChild(sectionDiv);
+                    currentSection++;
+                }
+            });
+
+            Object.entries(sections).forEach(([section, range]) => {
+                const sectionDiv = document.getElementById(`section-${section}`);
+                if (!sectionDiv) return;
+
+                const sectionPhrases = data.filter(row => {
+                    const phraseNumber = Number(row[3]);
+                    return phraseNumber >= range.start && phraseNumber <= range.end;
+                });
+
+                sectionPhrases.forEach(row => {
+                    const [ , , , phraseNumber, phraseHanja, phraseKorean, phraseMeaning] = row;
+
+                    const phraseDiv = document.createElement('div');
+                    phraseDiv.classList.add('phrase');
+
+                    phraseDiv.innerHTML = `
+                        <div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>
+                        <div class="character-boxes"></div>
+                        <div class="phrase-meaning">${phraseMeaning}</div>
+                    `;
+
+                    const characterBoxes = phraseDiv.querySelector('.character-boxes');
+
+                    for (let i = 0; i < 4; i++) {
+                        const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i]); // Characters start from column H
+                        if (characterRow) {
+                            const characterBox = document.createElement('div');
+                            characterBox.classList.add('character-box');
+                            characterBox.innerHTML = `
+                                <div class="hanja">${characterRow[7]}</div>
+                                <div class="korean">${characterRow[8]}</div>
+                                <div class="sound">${characterRow[9]}</div>
+                            `;
+                            characterBoxes.appendChild(characterBox);
+                        }
+                    }
+
+                    sectionDiv.appendChild(phraseDiv);
+                });
+            });
+        }
+    </script>
 </body>
 </html>
