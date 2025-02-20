@@ -3,130 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <title>Hanja Dictionary</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        section { margin-bottom: 30px; border-bottom: 2px solid #ccc; padding-bottom: 20px; }
-        h2 { color: #4CAF50; }
-        .phrase { margin-bottom: 20px; }
-        .phrase-header { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
-        .character-boxes { display: flex; gap: 10px; margin-bottom: 10px; }
-        .character-box { border: 1px solid #ccc; padding: 10px; text-align: center; width: 100px; }
-        .character-box .hanja { font-size: 2em; font-weight: bold; }
-        .character-box .korean { font-size: 1em; color: #555; }
-        .character-box .sound { font-size: 0.9em; color: #777; }
-        .phrase-meaning { font-style: italic; color: #333; }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
-    <h1>천자문 한자 목록</h1>
+    <h1>1,000 Hanja Characters</h1>
     <div id="hanja-sections"></div>
 
     <script>
-        const SHEET_ID = '11u6-30QjGz08BPbj5mC_abQr64lpzHuH59AoWgP3VLU' ; 
-        const URL = 'https://docs.google.com/spreadsheets/d/11u6-30QjGz08BPbj5mC_abQr64lpzHuH59AoWgP3VLU/gviz/tq?tqx=out:json';
+        const SHEET_ID = '11u6-30QjGz08BPbj5mC_abQr64lpzHuH59AoWgP3VLU';
+        const URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json`;
 
         fetch(URL)
             .then(response => response.text())
             .then(data => {
-                const json = JSON.parse(data.substring(47, data.length - 2));
+                const json = JSON.parse(data.substring(47, data.length - 2)); 
                 const rows = json.table.rows.map(row => row.c.map(cell => cell ? cell.v : ''));
 
                 displayData(rows);
             })
             .catch(error => console.error('Error loading data:', error));
 
-        function displayData(data) {
-            const sections = {
-                1: { start: 1, end: 18 },
-                2: { start: 19, end: 51 },
-                3: { start: 52, end: 81 },
-                4: { start: 82, end: 124 },
-                5: { start: 125, end: 125 }
-            };
 
-            const container = document.getElementById('hanja-sections');
+        const sections = {
+            1: { start: 1, end: 18 },
+            2: { start: 19, end: 51 },
+            3: { start: 52, end: 81 },
+            4: { start: 82, end: 124 },
+            5: { start: 125, end: 125 }
+        };
+
+
+        function displayData(data) {
             let currentSection = 1;
 
-            data.forEach(row => {
-                const [sectionHanja, sectionKorean, sectionMeaning, phraseNumber, phraseHanja, phraseKorean, phraseMeaning, characterHanja, characterKorean, characterSound] = row;
 
+            data.forEach(row => {
+                const [sectionHanja, sectionKorean, sectionMeaning] = row;
                 if (sectionHanja && sectionKorean && sectionMeaning) {
                     const sectionDiv = document.createElement('section');
                     sectionDiv.id = `section-${currentSection}`;
                     sectionDiv.innerHTML = `<h2>${sectionHanja} - ${sectionKorean}</h2><p>${sectionMeaning}</p>`;
-                    container.appendChild(sectionDiv);
+                    document.getElementById('hanja-sections').appendChild(sectionDiv);
                     currentSection++;
                 }
             });
 
-         // Loop through each section and display phrases
-Object.entries(sections).forEach(([section, range]) => {
-    const sectionDiv = document.getElementById(`section-${section}`);
-    if (!sectionDiv) return;
+            Object.entries(sections).forEach(([section, range]) => {
+                const sectionDiv = document.getElementById(`section-${section}`);
+                if (!sectionDiv) return;
 
-    // Filter phrases belonging to the current section
-    const sectionPhrases = data.filter(row => {
-        const phraseNumber = Number(row[3]);
-        return phraseNumber >= range.start && phraseNumber <= range.end;
-    });
+                const sectionPhrases = data.filter(row => {
+                    const phraseNumber = Number(row[3]); 
+                    return phraseNumber >= range.start && phraseNumber <= range.end;
+                });
 
-    // Loop through each phrase within the section
-    sectionPhrases.forEach(row => {
-        const [ , , , phraseNumber, phraseHanja, phraseKorean, phraseMeaning] = row;
+                sectionPhrases.forEach(row => {
+                    const [
+                        ,
+                        ,
+                        ,
+                        phraseNumber,  
+                        phraseHanja,   
+                        phraseKorean,  
+                        phraseMeaning 
+                    ] = row;
 
-        // Create the container for each phrase
-        const phraseDiv = document.createElement('div');
-        phraseDiv.classList.add('phrase');
 
-        // Phrase header: number, full phrase in Hanja, and Korean reading
-        phraseDiv.innerHTML = `
-            <div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>
-        `;
+                    const phraseDiv = document.createElement('div');
+                    phraseDiv.classList.add('phrase');
+                    phraseDiv.innerHTML = `
+                        <div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>
+                    `;
+       
+                    createCharacterSet(phraseDiv, data, phraseNumber, 0, 4);
 
-        // First 4 character boxes
-        createCharacterSet(phraseDiv, data, phraseNumber, 0, 4);
+                    createCharacterSet(phraseDiv, data, phraseNumber, 4, 8);
 
-        // Second 4 character boxes
-        createCharacterSet(phraseDiv, data, phraseNumber, 4, 8);
-
-        // Append the phrase to the section
-        sectionDiv.appendChild(phraseDiv);
-    });
-});
-
-// Function to create a character set with 4 boxes and the corresponding meaning
-function createCharacterSet(container, data, phraseNumber, start, end) {
-    // Create a container for character boxes
-    const characterBoxes = document.createElement('div');
-    characterBoxes.classList.add('character-boxes');
-    addCharacterBoxes(characterBoxes, data, phraseNumber, start, end);
-    container.appendChild(characterBoxes);
-
-    // Find and append the 4-character meaning from column G
-    const meaningDiv = document.createElement('div');
-    meaningDiv.classList.add('phrase-meaning');
-    const meaningRow = data.find(r => Number(r[3]) === phraseNumber && r[6]);
-    meaningDiv.textContent = meaningRow ? meaningRow[6] : '';
-    container.appendChild(meaningDiv);
-}
-
-// Function to add individual character boxes (4 characters in a row)
-function addCharacterBoxes(container, data, phraseNumber, start, end) {
-    for (let i = start; i < end; i++) {
-        // Find the row with character data for the current phrase
-        const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i - start]);
-        if (characterRow) {
-            const characterBox = document.createElement('div');
-            characterBox.classList.add('character-box');
-            characterBox.innerHTML = `
-                <div class="hanja">${characterRow[7]}</div>
-                <div class="korean">${characterRow[8]}</div>
-                <div class="sound">${characterRow[9]}</div>
-            `;
-            container.appendChild(characterBox);
+                    sectionDiv.appendChild(phraseDiv);
+                });
+            });
         }
-    }
-}
+
+        function createCharacterSet(container, data, phraseNumber, start, end) {
+            // Character Boxes
+            const characterBoxes = document.createElement('div');
+            characterBoxes.classList.add('character-boxes');
+            addCharacterBoxes(characterBoxes, data, phraseNumber, start, end);
+            container.appendChild(characterBoxes);
+
+            // Phrase Meaning (Column G: phrase_meaning)
+            const meaningDiv = document.createElement('div');
+            meaningDiv.classList.add('phrase-meaning');
+            const meaningRow = data.find(r => Number(r[3]) === phraseNumber && r[6]);
+            meaningDiv.textContent = meaningRow ? meaningRow[6] : '';
+            container.appendChild(meaningDiv);
+        }
+
+        function addCharacterBoxes(container, data, phraseNumber, start, end) {
+            for (let i = start; i < end; i++) {
+                const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i - start]); 
+                if (characterRow) {
+                    const characterBox = document.createElement('div');
+                    characterBox.classList.add('character-box');
+                    characterBox.innerHTML = `
+                        <div class="hanja">${characterRow[7]}</div>   <!-- Column H: character_hanja -->
+                        <div class="korean">${characterRow[8]}</div>  <!-- Column I: character_korean -->
+                        <div class="sound">${characterRow[9]}</div>   <!-- Column J: character_sound -->
+                    `;
+                    container.appendChild(characterBox);
+                }
+            }
+        }
     </script>
 </body>
 </html>
