@@ -9,6 +9,7 @@
         h2 { color: #4CAF50; }
         .phrase { margin-bottom: 30px; padding: 15px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; }
         .phrase-header { font-weight: bold; font-size: 1.2em; margin-bottom: 10px; }
+        .hanja-subsection { margin-bottom: 20px; }
         .character-boxes { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
         .character-box { border: 1px solid #4CAF50; padding: 10px; text-align: center; width: 80px; border-radius: 6px; }
         .character-box .hanja { font-size: 2em; font-weight: bold; }
@@ -48,7 +49,6 @@
             const container = document.getElementById('hanja-sections');
             let currentSection = 1;
 
-            // Create section headers
             data.forEach(row => {
                 const [sectionHanja, sectionKorean, sectionMeaning] = row;
                 if (sectionHanja && sectionKorean && sectionMeaning) {
@@ -60,7 +60,6 @@
                 }
             });
 
-            // Display phrases in each section
             Object.entries(sections).forEach(([section, range]) => {
                 const sectionDiv = document.getElementById(`section-${section}`);
                 if (!sectionDiv) return;
@@ -70,46 +69,34 @@
                     return phraseNumber >= range.start && phraseNumber <= range.end;
                 });
 
-                sectionPhrases.forEach(row => {
-                    const [ , , , phraseNumber, phraseHanja, phraseKorean, phraseMeaning] = row;
+                sectionPhrases.forEach((row, index) => {
+                    const [ , , , phraseNumber, phraseHanja, phraseKorean] = row;
 
                     const phraseDiv = document.createElement('div');
                     phraseDiv.classList.add('phrase');
 
-                    phraseDiv.innerHTML = `
-                        <div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>
-                    `;
+                    phraseDiv.innerHTML = `<div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>`;
 
-                    // First 4 characters
-                    const characterBoxes1 = document.createElement('div');
-                    characterBoxes1.classList.add('character-boxes');
-                    addCharacterBoxes(characterBoxes1, data, phraseNumber, 0, 4);
-                    phraseDiv.appendChild(characterBoxes1);
+                    // First hanja-subsection
+                    createHanjaSubsection(phraseDiv, data, index * 8 + 2);
 
-                    const meaning1 = document.createElement('div');
-                    meaning1.classList.add('phrase-meaning');
-                    meaning1.textContent = data.find(r => Number(r[3]) === phraseNumber && r[6])?.[6] || '';
-                    phraseDiv.appendChild(meaning1);
-
-                    // Next 4 characters
-                    const characterBoxes2 = document.createElement('div');
-                    characterBoxes2.classList.add('character-boxes');
-                    addCharacterBoxes(characterBoxes2, data, phraseNumber, 4, 8);
-                    phraseDiv.appendChild(characterBoxes2);
-
-                    const meaning2 = document.createElement('div');
-                    meaning2.classList.add('phrase-meaning');
-                    meaning2.textContent = data.find(r => Number(r[3]) === phraseNumber + 4 && r[6])?.[6] || '';
-                    phraseDiv.appendChild(meaning2);
+                    // Second hanja-subsection
+                    createHanjaSubsection(phraseDiv, data, index * 8 + 6);
 
                     sectionDiv.appendChild(phraseDiv);
                 });
             });
         }
 
-        function addCharacterBoxes(container, data, phraseNumber, start, end) {
-            for (let i = start; i < end; i++) {
-                const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i - start]);
+        function createHanjaSubsection(container, data, startRow) {
+            const hanjaSubsection = document.createElement('div');
+            hanjaSubsection.classList.add('hanja-subsection');
+
+            const characterBoxes = document.createElement('div');
+            characterBoxes.classList.add('character-boxes');
+
+            for (let i = 0; i < 4; i++) {
+                const characterRow = data[startRow + i];
                 if (characterRow) {
                     const characterBox = document.createElement('div');
                     characterBox.classList.add('character-box');
@@ -118,10 +105,20 @@
                         <div class="korean">${characterRow[8]}</div>
                         <div class="sound">${characterRow[9]}</div>
                     `;
-                    container.appendChild(characterBox);
+                    characterBoxes.appendChild(characterBox);
                 }
             }
+
+            hanjaSubsection.appendChild(characterBoxes);
+
+            const meaningDiv = document.createElement('div');
+            meaningDiv.classList.add('phrase-meaning');
+            meaningDiv.textContent = data[startRow]?.[6] || '';
+            hanjaSubsection.appendChild(meaningDiv);
+
+            container.appendChild(hanjaSubsection);
         }
     </script>
 </body>
 </html>
+
