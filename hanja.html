@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <h1>천자문 한자 목록:</h1>
+    <h1>천자문 목록</h1>
     <div id="hanja-sections"></div>
 
     <script>
@@ -78,10 +78,10 @@
                     phraseDiv.innerHTML = `<div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>`;
 
                     // First hanja-subsection
-                    createHanjaSubsection(phraseDiv, data, index * 8 + 2);
+                    createHanjaSubsection(phraseDiv, data, index * 8);
 
                     // Second hanja-subsection
-                    createHanjaSubsection(phraseDiv, data, index * 8 + 6);
+                    createHanjaSubsection(phraseDiv, data, index * 8 + 4);
 
                     sectionDiv.appendChild(phraseDiv);
                 });
@@ -121,4 +121,3 @@
     </script>
 </body>
 </html>
-
