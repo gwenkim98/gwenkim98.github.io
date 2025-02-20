@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-    <h1>1,000 Hanja Characters</h1>
+    <h1>천자문 한자 목록</h1>
     <div id="hanja-sections"></div>
 
     <script>
@@ -76,29 +76,48 @@
 
                     phraseDiv.innerHTML = `
                         <div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>
-                        <div class="character-boxes"></div>
-                        <div class="phrase-meaning">${phraseMeaning}</div>
-                    `;
+                     `;
+                      
+                    const characterBoxes1 = document.createElement('div');
+                    characterBoxes1.classList.add('character-boxes');
+                    addCharacterBoxes(characterBoxes1, data, phraseNumber, 0, 4);
+                    phraseDiv.appendChild(characterBoxes1);
 
-                    const characterBoxes = phraseDiv.querySelector('.character-boxes');
+                    const meaning1 = document.createElement('div');
+                    meaning1.classList.add('phrase-meaning');
+                    meaning1.textContent = data.find(r => Number(r[3]) === phraseNumber && r[6])?.[6] || '';
+                    phraseDiv.appendChild(meaning1);
 
-                    for (let i = 0; i < 4; i++) {
-                        const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i]); // Characters start from column H
-                        if (characterRow) {
-                            const characterBox = document.createElement('div');
-                            characterBox.classList.add('character-box');
-                            characterBox.innerHTML = `
-                                <div class="hanja">${characterRow[7]}</div>
-                                <div class="korean">${characterRow[8]}</div>
-                                <div class="sound">${characterRow[9]}</div>
-                            `;
-                            characterBoxes.appendChild(characterBox);
-                        }
-                    }
+                  
+                    const characterBoxes2 = document.createElement('div');
+                    characterBoxes2.classList.add('character-boxes');
+                    addCharacterBoxes(characterBoxes2, data, phraseNumber, 4, 8);
+                    phraseDiv.appendChild(characterBoxes2);
+
+                    const meaning2 = document.createElement('div');
+                    meaning2.classList.add('phrase-meaning');
+                    meaning2.textContent = data.find(r => Number(r[3]) === phraseNumber + 4 && r[6])?.[6] || '';
+                    phraseDiv.appendChild(meaning2);
 
                     sectionDiv.appendChild(phraseDiv);
                 });
             });
+        }
+
+        function addCharacterBoxes(container, data, phraseNumber, start, end) {
+            for (let i = start; i < end; i++) {
+                const characterRow = data.find(r => Number(r[3]) === phraseNumber && r[7 + i - start]);
+                if (characterRow) {
+                    const characterBox = document.createElement('div');
+                    characterBox.classList.add('character-box');
+                    characterBox.innerHTML = `
+                        <div class="hanja">${characterRow[7]}</div>
+                        <div class="korean">${characterRow[8]}</div>
+                        <div class="sound">${characterRow[9]}</div>
+                    `;
+                    container.appendChild(characterBox);
+                }
+            }
         }
     </script>
 </body>
