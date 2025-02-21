@@ -72,7 +72,7 @@ section p {
 }
 
 .phrase-header {
-    font-weight: bold;    font-size: 1.2em;    color: #333;    margin-bottom: 10px; text-align: center;
+    font-weight: bold;    font-size: 1.2em;    color: #333;    margin-bottom: 10px; horizontal-align: center;
 }
 
 .character-boxes {
