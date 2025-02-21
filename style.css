@@ -1,3 +1,5 @@
+/* styles.css - Hanja Dictionary Styles */
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -33,7 +35,8 @@ h2 {
 .character-boxes {
     display: flex;
     gap: 10px;
-    justify-content: center;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 10px;
 }
 
@@ -43,6 +46,10 @@ h2 {
     text-align: center;
     width: 80px;
     border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .character-box .hanja {
