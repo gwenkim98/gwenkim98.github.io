@@ -53,9 +53,19 @@ section p {
 }
 
 .phrase {
-    margin-bottom: 30px;    padding: 15px;    border: 1px solid #ddd;    border-radius: 8px;    background-color: #f9f9f9;    transition: all 0.3s ease; max-width: 500px; display: flex; display: inline-block;
-    text-align: center;
-}
+    margin-bottom: 30px;    
+    padding: 15px;    
+    border: 1px solid #ddd;    
+    border-radius: 8px;    
+    background-color: #f9f9f9;    
+    transition: all 0.3s ease;    
+    max-width: 500px;    
+    display: inline-block;   /* Allows containers to sit side by side */
+    text-align: center;    
+    width: 30%;             /* Each phrase takes up 30% width */
+    box-sizing: border-box; /* Includes padding and border within width */
+    vertical-align: top;    /* Aligns containers at the top */
+    margin-right: 1.5%;     /* Adds space between containers */
 
 .phrase:hover {
     background-color: #eaf7ea;    border-color: #4CAF50;
