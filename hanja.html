@@ -12,15 +12,15 @@
         .hanja-subsection { margin-bottom: 20px; }
         .character-boxes { display: flex; gap: 10px; justify-content: center; margin-bottom: 10px; }
         .character-box { border: 1px solid #4CAF50; padding: 10px; text-align: center; width: 80px; border-radius: 6px; }
-        .character-box .hanja { font-size: 2em; font-weight: bold; }
+        .character-box .hanja { font-size: 3em; font-weight: bold; }
         .character-box .korean { font-size: 1em; color: #555; }
-        .character-box .sound { font-size: 0.9em; color: #777; }
+        .character-box .sound { font-size: 2em; color: #777; }
         .phrase-meaning { font-style: italic; color: #333; text-align: center; margin-bottom: 20px; }
     </style>
 </head>
 
 <body>
-    <h1>천자문 한자 목록:</h1>
+    <h1>천자문 한자 목록</h1>
     <div id="hanja-sections"></div>
 
     <script>
@@ -78,10 +78,9 @@
                     phraseDiv.innerHTML = `<div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>`;
 
                     // First hanja-subsection
-                    createHanjaSubsection(phraseDiv, data, range.start * 8 + index * 8);
-
+                    createHanjaSubsection(phraseDiv, data, (range.start - 1) * 8 + index * 8);
                     // Second hanja-subsection
-                    createHanjaSubsection(phraseDiv, data, range.start * 8 + index * 8 + 4);
+                    createHanjaSubsection(phraseDiv, data, (range.start - 1) * 8 + index * 8 + 4);
 
                     sectionDiv.appendChild(phraseDiv);
                 });
