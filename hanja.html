@@ -20,7 +20,7 @@
 </head>
 
 <body>
-    <h1>천자문 한자 목록</h1>
+    <h1>천자문 한자 목록:</h1>
     <div id="hanja-sections"></div>
 
     <script>
@@ -39,11 +39,11 @@
 
         function displayData(data) {
             const sections = {
-                1: { start: 0, end: 144 },
-                2: { start: 144, end: 408 },
-                3: { start: 408, end: 648 },
-                4: { start: 648, end: 992 },
-                5: { start: 992, end: 1000 }
+                1: { start: 1, end: 18 },
+                2: { start: 19, end: 51 },
+                3: { start: 52, end: 81 },
+                4: { start: 82, end: 124 },
+                5: { start: 125, end: 125 }
             };
 
             const container = document.getElementById('hanja-sections');
@@ -64,9 +64,12 @@
                 const sectionDiv = document.getElementById(`section-${section}`);
                 if (!sectionDiv) return;
 
-                const sectionData = data.slice(range.start, range.end);
+                const sectionPhrases = data.filter(row => {
+                    const phraseNumber = Number(row[3]);
+                    return phraseNumber >= range.start && phraseNumber <= range.end;
+                });
 
-                sectionData.forEach((row, index) => {
+                sectionPhrases.forEach((row, index) => {
                     const [ , , , phraseNumber, phraseHanja, phraseKorean] = row;
 
                     const phraseDiv = document.createElement('div');
@@ -74,11 +77,11 @@
 
                     phraseDiv.innerHTML = `<div class="phrase-header">${phraseNumber}. ${phraseHanja} (${phraseKorean})</div>`;
 
-                    // First hanja-subsection (4 characters and meaning)
-                    createHanjaSubsection(phraseDiv, sectionData, index * 8);
+                    // First hanja-subsection
+                    createHanjaSubsection(phraseDiv, data, range.start * 8 + index * 8);
 
-                    // Second hanja-subsection (next 4 characters and meaning)
-                    createHanjaSubsection(phraseDiv, sectionData, index * 8 + 4);
+                    // Second hanja-subsection
+                    createHanjaSubsection(phraseDiv, data, range.start * 8 + index * 8 + 4);
 
                     sectionDiv.appendChild(phraseDiv);
                 });
