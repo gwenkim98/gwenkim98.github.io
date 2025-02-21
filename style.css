@@ -23,7 +23,7 @@ section {
 }
 
 section h2 {
-    font-size: 1.8em;    color: #4CAF50;    margin-bottom: 10px; 
+    font-size: 1.8em;    color: #4CAF50;    margin-bottom: 10px; text-align: center;
 }
 
 section p {
@@ -72,7 +72,7 @@ section p {
 }
 
 .phrase-header {
-    font-weight: bold;    font-size: 1.2em;    color: #333;    margin-bottom: 10px; horizontal-align: center;
+    font-weight: bold;    font-size: 1.2em;    color: #333;    margin-bottom: 10px; text-align: center;
 }
 
 .character-boxes {
