@@ -2,12 +2,8 @@ body {
     font-family: Arial, sans-serif;    background: #f5f5f5;    color: #333;    line-height: 1.6;    padding: 20px;
 }
 
-h1 {
-    font-size: 3em;
-}
-
 header {
-    background: #4CAF50;    color: white;    padding: 10px 0;    text-align: center;    margin-bottom: 40px;
+    background: #4CAF50;    color: white;    padding: 10px 0;    text-align: center;    margin-bottom: 40px; font-size: 3em;
 }
 
 nav a {
