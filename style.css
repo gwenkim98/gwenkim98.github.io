@@ -7,10 +7,11 @@ body {
 }
 
 header {
-    background: #26cb8f;
+    background: #4CAF50;
     color: white;
     padding: 10px 0;
     text-align: center;
+    margin-bottom: 40px;
 }
 
 nav a {
