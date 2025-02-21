@@ -92,3 +92,15 @@ section p {
 .phrase-meaning {
     font-size: 1em;    font-style: italic;    font-style: bold; color: #555;    margin-top: 10px;    margin-bottom: 20px; text-align: center;
 }
+
+@media (max-width: 1024px) {
+    .phrase {
+        width: 45%;  /* Wider boxes on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .phrase {
+        width: 100%; /* Full width on small screens */
+    }
+}
