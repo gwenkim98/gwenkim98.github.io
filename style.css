@@ -61,7 +61,7 @@ section p {
     transition: all 0.3s ease;    
     max-width: 600px;    
     display: inline-block;   /* Allows containers to sit side by side */
-    text-align: center;    
+    horizontal-align: center;    
     width: 30%;             /* Each phrase takes up 30% width */
     box-sizing: border-box; /* Includes padding and border within width */
     vertical-align: top;    /* Aligns containers at the top */
