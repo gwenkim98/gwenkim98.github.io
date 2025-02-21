@@ -121,21 +121,3 @@ section p {
     margin-top: 10px;
     text-align: center;
 }
-
-@media (max-width: 768px) {
-    .character-boxes {
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .character-box {
-        width: calc(50% - 10px);
-    }
-}
-
-@media (max-width: 480px) {
-    .character-box {
-        width: 100%;
-    }
-}
