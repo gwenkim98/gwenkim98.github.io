@@ -65,7 +65,7 @@ section p {
 }
 
 .character-boxes {
-    display: flex;    gap: 10px;    justify-content: center;    margin-bottom: 10px;    flex-wrap: wrap;
+    display: flex;    gap: 10px;    justify-content: center;    margin-bottom: 10px;    flex-wrap: wrap; display: inline-block
 }
 
 .character-box {
