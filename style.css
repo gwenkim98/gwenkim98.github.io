@@ -1,3 +1,5 @@
+/* styles.css - Hanja Dictionary Styles */
+
 body {
     font-family: Arial, sans-serif;
     background: #f5f5f5;
@@ -97,7 +99,7 @@ section p {
 }
 
 .character-box .hanja {
-    font-size: 2.5em;
+    font-size: 3em;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
@@ -110,7 +112,7 @@ section p {
 }
 
 .character-box .sound {
-    font-size: 0.9em;
+    font-size: 2em;
     color: #777;
 }
 
@@ -120,6 +122,10 @@ section p {
     color: #555;
     margin-top: 10px;
     text-align: center;
+}
+
+.hanja-subsection {
+    margin-bottom: 20px;
 }
 
 @media (max-width: 768px) {
