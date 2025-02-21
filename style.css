@@ -23,7 +23,7 @@ section {
 }
 
 section h2 {
-    font-size: 1.8em;    color: #4CAF50;    margin-bottom: 10px;  
+    font-size: 1.8em;    color: #4CAF50;    margin-bottom: 10px; 
 }
 
 section p {
@@ -59,7 +59,7 @@ section p {
     border-radius: 8px;    
     background-color: #f9f9f9;    
     transition: all 0.3s ease;    
-    max-width: 500px;    
+    max-width: 600px;    
     display: inline-block;   /* Allows containers to sit side by side */
     text-align: center;    
     width: 30%;             /* Each phrase takes up 30% width */
