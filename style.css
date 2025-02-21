@@ -1,17 +1,54 @@
-/* styles.css - Hanja Dictionary Styles */
-
 body {
     font-family: Arial, sans-serif;
+    background: #f5f5f5;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+header {
+    background: #26cb8f;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 0.9em;
+    color: #555;
 }
 
 section {
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    padding: 20px;
     margin-bottom: 30px;
-    border-bottom: 2px solid #ccc;
-    padding-bottom: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-h2 {
+section h2 {
+    font-size: 1.8em;
     color: #4CAF50;
+    margin-bottom: 10px;
+}
+
+section p {
+    font-size: 1.1em;
+    color: #555;
+    margin-bottom: 20px;
 }
 
 .phrase {
@@ -19,57 +56,86 @@ h2 {
     padding: 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
-    background: #f9f9f9;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
 }
 
+.phrase:hover {
+    background-color: #eaf7ea;
+    border-color: #4CAF50;
+}
+
+/* Phrase Header */
 .phrase-header {
     font-weight: bold;
     font-size: 1.2em;
+    color: #333;
     margin-bottom: 10px;
-}
-
-.hanja-subsection {
-    margin-bottom: 20px;
 }
 
 .character-boxes {
     display: flex;
     gap: 10px;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
 .character-box {
-    border: 1px solid #4CAF50;
-    padding: 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    width: calc(25% - 10px);
     text-align: center;
-    width: 80px;
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    padding: 15px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.character-box:hover {
+    transform: scale(1.1);
 }
 
 .character-box .hanja {
-    font-size: 3em;
+    font-size: 2.5em;
     font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
 }
 
 .character-box .korean {
     font-size: 1em;
     color: #555;
+    margin-bottom: 3px;
 }
 
 .character-box .sound {
-    font-size: 2em;
+    font-size: 0.9em;
     color: #777;
 }
 
 .phrase-meaning {
+    font-size: 1em;
     font-style: italic;
-    color: #333;
+    color: #555;
+    margin-top: 10px;
     text-align: center;
-    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .character-boxes {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .character-box {
+        width: calc(50% - 10px);
+    }
+}
+
+@media (max-width: 480px) {
+    .character-box {
+        width: 100%;
+    }
 }
