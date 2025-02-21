@@ -69,6 +69,7 @@ section p {
     width: 30%;             /* Each phrase takes up 30% width */
     box-sizing: border-box; /* Includes padding and border within width */
     vertical-align: top;    /* Aligns containers at the top */
+    margin-left: 0.5%;
     margin-right: 1.5%;     /* Adds space between containers */
 
 .phrase:hover {
