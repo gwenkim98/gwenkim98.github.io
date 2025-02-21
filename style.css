@@ -53,7 +53,7 @@ section p {
 }
 
 .phrase {
-    margin-bottom: 30px;    padding: 15px;    border: 1px solid #ddd;    border-radius: 8px;    background-color: #f9f9f9;    transition: all 0.3s ease;
+    margin-bottom: 30px;    padding: 15px;    border: 1px solid #ddd;    border-radius: 8px;    background-color: #f9f9f9;    transition: all 0.3s ease; max-width: 300px;
 }
 
 .phrase:hover {
@@ -90,16 +90,16 @@ section p {
 }
 
 .phrase-meaning {
-    font-size: 1em;    font-style: italic;    font-style: bold; color: #555;    margin-top: 10px;    margin-bottom: 20px; text-align: center;
+    font-size: 1em;    font-style: italic;    font-weight: bold; color: #555;    margin-top: 10px;    margin-bottom: 20px; text-align: center;
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 300px) {
     .phrase {
         width: 45%;  /* Wider boxes on medium screens */
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 300px) {
     .phrase {
         width: 100%; /* Full width on small screens */
     }
